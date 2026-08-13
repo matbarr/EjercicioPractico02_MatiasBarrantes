@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Consultas Avanzadas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: header}"></div>
+<div th:replace="~{fragments :: navbar}"></div>
+
+<main class="container my-4">
+    <h2 class="mb-3 section-title">Consultas Avanzadas</h2>
+
+    <div class="row g-3 mb-4">
+        <div class="col-lg-6">
+            <div class="card card-body h-100">
+                <h5>Citas por estado</h5>
+                <form th:action="@{/consultas/citas-estado}" method="get" class="row g-2">
+                    <div class="col-8">
+                        <select name="activa" class="form-select">
+                            <option value="true">Activas</option>
+                            <option value="false">Inactivas</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-primary w-100" type="submit">Buscar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card card-body h-100">
+                <h5>Citas por rango de fechas</h5>
+                <form th:action="@{/consultas/citas-rango}" method="get" class="row g-2">
+                    <div class="col-5"><input class="form-control" type="date" name="inicio" required></div>
+                    <div class="col-5"><input class="form-control" type="date" name="fin" required></div>
+                    <div class="col-2"><button class="btn btn-primary w-100" type="submit">OK</button></div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card card-body h-100">
+                <h5>Citas por especialidad parcial</h5>
+                <form th:action="@{/consultas/citas-especialidad}" method="get" class="row g-2">
+                    <div class="col-8"><input class="form-control" type="text" name="especialidad" placeholder="Ej: cardio" required></div>
+                    <div class="col-4"><button class="btn btn-primary w-100" type="submit">Buscar</button></div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card card-body h-100">
+                <h5>Usuarios por rol</h5>
+                <form th:action="@{/consultas/usuarios-rol}" method="get" class="row g-2">
+                    <div class="col-8">
+                        <select class="form-select" name="rol">
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="MEDICO">MEDICO</option>
+                            <option value="PACIENTE">PACIENTE</option>
+                        </select>
+                    </div>
+                    <div class="col-4"><button class="btn btn-primary w-100" type="submit">Buscar</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-body mb-4">
+        <h5>Conteo de citas activas</h5>
+        <form th:action="@{/consultas/conteo-citas-activas}" method="get">
+            <button class="btn btn-outline-primary" type="submit">Calcular</button>
+        </form>
+        <p class="mt-3 mb-0" th:if="${totalCitasActivas != null}">
+            Total de citas activas: <strong th:text="${totalCitasActivas}"></strong>
+        </p>
+    </div>
+
+    <div class="card card-body mb-4" th:if="${tituloResultado != null}">
+        <h5 th:text="${tituloResultado}"></h5>
+        <div class="entity-grid mt-2" th:if="${citasResultado != null and !#lists.isEmpty(citasResultado)}">
+            <article class="entity-card" th:each="cita : ${citasResultado}">
+                <h5 th:text="${cita.pacienteNombre}"></h5>
+                <p class="entity-meta"><strong>ID:</strong> <span th:text="${cita.id}"></span></p>
+                <p class="entity-meta"><strong>Especialidad:</strong> <span th:text="${cita.especialidad}"></span></p>
+                <p class="entity-meta"><strong>Fecha:</strong> <span th:text="${cita.fecha}"></span></p>
+                <p class="entity-meta"><strong>Costo:</strong> ₡<span th:text="${cita.costo}"></span></p>
+                <p class="entity-meta"><strong>Estado:</strong> <span th:text="${cita.activa} ? 'Activa' : 'Inactiva'"></span></p>
+            </article>
+        </div>
+        <p class="text-muted mt-2 mb-0" th:if="${citasResultado != null and #lists.isEmpty(citasResultado)}">Sin resultados.</p>
+    </div>
+
+    <div class="card card-body" th:if="${tituloUsuarios != null}">
+        <h5 th:text="${tituloUsuarios}"></h5>
+        <div class="entity-grid mt-2" th:if="${usuariosResultado != null and !#lists.isEmpty(usuariosResultado)}">
+            <article class="entity-card" th:each="usuario : ${usuariosResultado}">
+                <h5 th:text="${usuario.nombre}"></h5>
+                <p class="entity-meta"><strong>ID:</strong> <span th:text="${usuario.id}"></span></p>
+                <p class="entity-meta"><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
+                <p class="entity-meta"><strong>Rol:</strong> <span th:text="${usuario.rol.nombre}"></span></p>
+            </article>
+        </div>
+        <p class="text-muted mt-2 mb-0" th:if="${usuariosResultado != null and #lists.isEmpty(usuariosResultado)}">Sin resultados.</p>
+    </div>
+</main>
+
+<div th:replace="~{fragments :: footer}"></div>
+</body>
+</html>

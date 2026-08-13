@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MediCare | Inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: header}"></div>
+<div th:replace="~{fragments :: navbar}"></div>
+
+<main class="container my-5">
+    <div class="p-5 rounded-4 text-white hero-card">
+        <h2 class="display-6 fw-bold">Plataforma de Gestion Clinica MediCare</h2>
+        <p class="lead">Administra usuarios, roles y citas medicas con seguridad por permisos y consultas avanzadas.</p>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-warning btn-lg" th:href="@{/citas}">Ir a Citas Medicas</a>
+            <a class="btn btn-outline-light btn-lg" th:href="@{/consultas}">Ver Consultas</a>
+        </div>
+    </div>
+
+    <section class="row g-3 mt-1">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Usuarios</h5>
+                    <p class="card-text text-muted">Administra cuentas, roles y estados de acceso del sistema.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Citas Medicas</h5>
+                    <p class="card-text text-muted">Gestiona agenda clinica, costos, especialidad y estado de atencion.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Consultas Avanzadas</h5>
+                    <p class="card-text text-muted">Filtra por fechas, estado, especialidad y rol para analisis rapido.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
